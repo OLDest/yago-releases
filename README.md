@@ -1,25 +1,49 @@
-# YaGo
+# YaGo — загрузки и обновления
 
-<img src="assets/icon.png" width="96" alt="YaGo">
+<img src="assets/icon.png" width="80" alt="Иконка YaGo">
 
-Лёгкий неофициальный клиент Яндекс Музыки на Go.
+Публичный репозиторий готовых сборок YaGo — неофициального клиента Яндекс Музыки.
 
-**[Скачать Windows EXE](https://github.com/OLDest/yago-releases/releases/latest/download/YaGo.exe)** · **[Скачать Android APK](https://github.com/OLDest/yago-releases/releases/latest/download/YaGo-android.apk)** · [Все версии](https://github.com/OLDest/yago-releases/releases)
+**[Скачать для Windows](https://github.com/OLDest/yago-releases/releases/latest/download/YaGo.exe)** · **[Скачать для Android](https://github.com/OLDest/yago-releases/releases/latest/download/YaGo-android.apk)** · [Все релизы](https://github.com/OLDest/yago-releases/releases)
 
-Windows x64. Android 8.0+, ARM64/ARMv7, OpenGL ES 3.0.
+Готовые приложения находятся в разделе **Releases → Assets**, а не среди файлов на вкладке Code.
 
-Иконки приложения, «Моя волна», поиск, библиотека, очередь и шафл без повторов. Вход через код Яндекса; полные треки требуют подписки сервиса. Проект не связан с Яндексом.
+## Что скачать
+
+| Платформа | Файл | Требования |
+| --- | --- | --- |
+| Windows | [YaGo.exe](https://github.com/OLDest/yago-releases/releases/latest/download/YaGo.exe) | Windows x64 |
+| Android | [YaGo-android.apk](https://github.com/OLDest/yago-releases/releases/latest/download/YaGo-android.apk) | Android 8.0+, ARM64 или ARMv7, OpenGL ES 3.0 |
+
+Windows: скачайте EXE в свою папку и запустите. Android: скачайте APK и подтвердите установку. Для входа в Яндекс Музыку используется код Яндекса; полные треки требуют подписки сервиса.
+
+## Содержимое релиза 0.3.0
+
+| Файл в Assets | Назначение |
+| --- | --- |
+| YaGo.exe | Готовое приложение Windows |
+| YaGo-android.apk | Готовое приложение Android |
+| SHA256SUMS.txt | Контрольные суммы EXE и APK |
+| YaGo-android.apk.sha256 | Отдельная контрольная сумма APK |
+| updates.json | Подписанный манифест для обновления из приложения |
+| [YaGo-0.3.0-source.zip](https://github.com/OLDest/yago-releases/releases/download/v0.3.0/YaGo-0.3.0-source.zip) | Соответствующие исходники и сборочные скрипты |
+| LICENSE | Лицензия GPL-3.0-only |
+| THIRD_PARTY_NOTICES.txt | Лицензии и уведомления зависимостей |
 
 ## Обновления
 
-Начиная с 0.3.0 приложение проверяет этот публичный репозиторий автоматически. Вход GitHub не нужен. Подпись Ed25519 и SHA-256 проверяются до установки. Android требует системного подтверждения установки. Windows перезапускается после подтверждения пользователя.
+Начиная с 0.3.0 YaGo проверяет релизы этого репозитория без входа в GitHub. Кнопка **«Обновл.»** позволяет проверить, скачать и установить обновление. Перед установкой проверяются подпись манифеста и SHA-256 файла.
 
-Установите новую версию поверх старой. Для Android сохранены идентификатор пакета и сертификат. Установку обновления на физическом Android ещё нужно проверить.
+Windows предлагает установку с перезапуском. Android открывает системное подтверждение установки. Для APK сохранены идентификатор пакета и сертификат предыдущих сборок; устанавливайте поверх старой версии.
 
-## Исходники и лицензия
+Установка обновления на физическом Android пока не проверена.
 
-GPL-3.0-only. В каждом релизе есть **YaGo-X.Y.Z-source.zip** с соответствующими исходниками и сборочными скриптами, LICENSE и THIRD_PARTY_NOTICES.txt. История рабочего Git сюда не копируется. Автоматический GitHub Source code архив содержит только файлы этой страницы; полный код приложения — в отдельном YaGo-X.Y.Z-source.zip.
+## Где исходники
 
-Для Windows с установленным Go 1.25+ распакуйте исходники, выполните go run scripts/icon.go, go install github.com/akavel/rsrc@v0.10.2, rsrc -ico assets/icon.ico -arch amd64 -o icon_windows_amd64.syso, затем go build -trimpath -ldflags="-s -w -H=windowsgui" -o YaGo.exe . . Подробнее в README внутри архива. Android требует SDK/NDK и собственного ключа подписи.
+На вкладке **Code** хранятся описание, лицензия и иконка. Исходники приложения опубликованы отдельным файлом **YaGo-0.3.0-source.zip** в Assets релиза. Инструкции сборки находятся внутри этого архива.
+
+Кнопка **Code → Download ZIP** и автоматически созданные GitHub архивы **Source code (zip/tar.gz)** скачивают содержимое этого репозитория загрузок, а не исходники приложения. Для кода приложения выбирайте именно **YaGo-0.3.0-source.zip**.
+
+Проект распространяется под GPL-3.0-only и не связан с Яндексом.
 
 [Сообщить об ошибке](https://github.com/OLDest/yago-releases/issues)
