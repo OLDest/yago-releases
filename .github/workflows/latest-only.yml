@@ -1,0 +1,32 @@
+name: Keep only latest YaGo
+
+on:
+  release:
+    types: [published, edited]
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: yago-latest-only
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Publish verified latest-only snapshot
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/latest_only.py
