@@ -1,0 +1,41 @@
+name: Native builds
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.27.4'
+          cache-dependency-path: go.sum
+      - name: Prepare pinned Go memory patch
+        shell: pwsh
+        run: ./prepare-toolchain.ps1 -ToolchainRoot (go env GOROOT)
+      - name: Linux native libraries
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libwayland-dev libxkbcommon-x11-dev libegl1-mesa-dev libgles2-mesa-dev libxcursor-dev libxfixes-dev libasound2-dev libvulkan-dev
+      - run: go vet ./...
+      - run: go test ./...
+      - name: Windows icons
+        if: runner.os == 'Windows'
+        run: |
+          go run scripts/icon.go
+          go install github.com/akavel/rsrc@v0.10.2
+          rsrc -ico assets/icon.ico -arch amd64 -o icon_windows_amd64.syso
+      - name: Build Windows
+        if: runner.os == 'Windows'
+        run: go build -mod=readonly -trimpath -ldflags="-s -w -H=windowsgui" -o YaGo.exe .
+      - name: Build Unix
+        if: runner.os != 'Windows'
+        run: go build -mod=readonly -trimpath -ldflags="-s -w" -o YaGo .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: YaGo-${{ runner.os }}
+          path: |
+            YaGo
+            YaGo.exe
